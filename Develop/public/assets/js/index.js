@@ -5,16 +5,6 @@ var $noteText = $(".note-textarea");
 var $saveNoteBtn = $(".save-note");
 var $newNoteBtn = $(".new-note");
 var $noteList = $(".list-container .list-group");
-var express = require("express");
-var path = require("path");
-
-//Instantiating exprees and port for heroku...
-var app = express();
-var PORT = process.env.PORT || 3000;
-
-// Sets up the Express app to handle data parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 
 // activeNote is used to keep track of the note in the textarea
