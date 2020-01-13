@@ -1,36 +1,52 @@
 
 //Listing dependencies..................
-var express = require("express");
-var path = require("path");
+const express = require("express");
+const path = require("path");
 
+var noteArr = [];
 //Instantiating exprees and port for heroku...
-var app = express();
-var PORT = process.env.PORT || 3000;
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var notes = [];
-var index = [];
-
 //============ HTML ROUTES ======================//
 
 //Routes that send the user first to the AJAX page
-app.get('/notes', function(req, res) {
+app.get('../notes', function(req, res) {
   res.sendFile(path.join(__dirname, "notes.html"));
 });
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-//============ API ROUTES ======================//
+//============ API ROUTES======================//
+
+//Reading files from the db.json file and return all saved notes as JSON....
 app.get("/api/notes", function(req, res) {
-  return res.json(notes)
+  fs.readFile("../db/db.json", function(err, data) {
+    if (err) throw err
+    return res.json(JSON.json(data))
+  });
+  
 });
-app.get("/api/notes", function(req, res) {
-  return res.json(index)
+
+//POST /api/notes - Should recieve a new note to save on the request body, add it to the db.json file, and then return the new note to the client....
+app.post("/api/notes", function(req, res) {
+  var newNote = req.body;
+  
+  if (noteArr.length < 5 ) {
+      noteArr.push(newNote);
+  } else {
+      noteArr.push(newNote);
+  }
+  res.json(newNote);
 });
+
+
+//============ Write to file using the fs module ======//
 
 
 //launch port...............................
