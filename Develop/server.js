@@ -35,11 +35,34 @@ app.get("/api/notes", function(req, res) {
   })
   
 
-//GET * - Return the index.html file
+// GET * - Return the index.html file
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
 })
 
+//===========================DELETE 1============================================//
+// DELETE /api/notes/:id - Recives a query paramter containing the id of a note to delete.
+// and then rewrite the notes to the db.json file.
+app.delete('/api/notes/:id', function (req, res) {
+  
+  var chosenNote = req.params.id
+  console.log(chosenNote)
+
+  fs.readFile("db/db.json", "utf8", function (err, data) {
+      console.log('delet1')
+      if (err) throw err
+
+      var note = JSON.parse(data)
+      var index = parseInt(chosenNote) - 1
+      note.splice(index, 1);
+
+      fs.writeFile('db/db.json', JSON.stringify(note), 'utf8', function (err) {
+      if (err) throw err
+      console.log('deletedone2')
+      })
+  })
+  res.send(chosenNote)
+})
 
 //============ Write to file using the fs module ======//
 //POST /api/notes - Should recieve a new note to save on the request body, add it to the db.json file, and then return the new note to the client....
@@ -51,37 +74,20 @@ app.post("/api/notes", function(req, res){
     
         if (err) throw err
         var note = JSON.parse(data)
+
         note.push(newNote)
         note.forEach((item, i) => item.id = i + 1);
         console.log(note)
 
          fs.writeFile('db/db.json', JSON.stringify(note), 'utf8', function(err){
          if(err) throw err
-         console.log('done')
+         console.log('done2')
      })
   })
   res.json(newNote)
 })
 
-// app.delete('/api/notes/:id', function (req, res) {
-//   var chosenNote = req.params.id
 
-//   console.log(chosenNote)
-//   fs.readFile("db/db.json", "utf8", function(err, data){
-//     console.log('done1')
-    
-//         if (err) throw err
-//         var note = JSON.parse(data)
-//         note.forEach((item, i) => item.id[i] = {});
-//         console.log(note)
-//         note.push(chosenNote)
-//          fs.writeFile('db/db.json', JSON.stringify(chosenNote), 'utf8', function(err){
-//          if(err) throw err
-//          console.log('done')
-//      })
-//   })
-//   res.send(chosenNote)
-// })
 
 
 //launch port...............................
