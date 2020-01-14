@@ -3,7 +3,10 @@
 ## Demo
 ![Site](Assets/siteDemo.gif) 
 
-## How To Use
+## Instructions
+
+There are a couple dependencies that are have already been provided for you in the package json. All you need to do is open your terminal and run "npm install". This gives you access to the packages that will run the applicaiton, mainly the express.js package. Next, in terminal run "node server.js". This will launched your local host 3000. You can then navigate to your browser and go to https://localhost:3000 where you will be able to start taking and editing notes.
+
 
  
 ## Technologies Used
@@ -18,23 +21,29 @@
  
 ## Code Snippet
 
-
-
 ```js
+app.delete('/api/notes/:id', function (req, res) {
+  
+  var chosenNote = req.params.id
+  console.log(chosenNote)
 
+  fs.readFile("db/db.json", "utf8", function (err, data) {
+      console.log('delet1')
+      if (err) throw err
+
+      var note = JSON.parse(data)
+      var index = parseInt(chosenNote) - 1
+      note.splice(index, 1);
+
+      fs.writeFile('db/db.json', JSON.stringify(note), 'utf8', function (err) {
+      if (err) throw err
+      console.log('deletedone2')
+      })
+  })
+  res.send(chosenNote)
+});
 
 ```
-
-## Code Snippet
-
-
-```js
-
-
-
-```
-
-
 
 ## Built With
 * [Express.js](https://expressjs.com/)
