@@ -49,10 +49,11 @@ app.post("/api/notes", function(req, res){
   fs.readFile("db/db.json", "utf8", function(err, data){
     console.log('done1')
     
-    if (err) throw err
-     var note = JSON.parse(data)
-     console.log(note)
-     note.push(newNote)
+        if (err) throw err
+        var note = JSON.parse(data)
+        note.push(newNote)
+        note.forEach((item, i) => item.id = i + 1);
+        console.log(note)
 
          fs.writeFile('db/db.json', JSON.stringify(note), 'utf8', function(err){
          if(err) throw err
@@ -61,6 +62,26 @@ app.post("/api/notes", function(req, res){
   })
   res.json(newNote)
 })
+
+// app.delete('/api/notes/:id', function (req, res) {
+//   var chosenNote = req.params.id
+
+//   console.log(chosenNote)
+//   fs.readFile("db/db.json", "utf8", function(err, data){
+//     console.log('done1')
+    
+//         if (err) throw err
+//         var note = JSON.parse(data)
+//         note.forEach((item, i) => item.id[i] = {});
+//         console.log(note)
+//         note.push(chosenNote)
+//          fs.writeFile('db/db.json', JSON.stringify(chosenNote), 'utf8', function(err){
+//          if(err) throw err
+//          console.log('done')
+//      })
+//   })
+//   res.send(chosenNote)
+// })
 
 
 //launch port...............................
