@@ -19,7 +19,7 @@ app.use(express.static('public'));
 //GET /notes - returns the notes.html file
 app.get('/notes', function(req, res) {
   res.sendFile(path.join(__dirname, "public/notes.html"));
-})
+});
 
 
 //============ API ROUTES======================//
@@ -32,13 +32,12 @@ app.get("/api/notes", function(req, res) {
     res.json(newNote);
     })
     
-  })
-  
+  });
 
 // GET * - Return the index.html file
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, "public/index.html"));
-})
+});
 
 //===========================DELETE 1============================================//
 // DELETE /api/notes/:id - Recives a query paramter containing the id of a note to delete.
@@ -62,7 +61,7 @@ app.delete('/api/notes/:id', function (req, res) {
       })
   })
   res.send(chosenNote)
-})
+});
 
 //============ Write to file using the fs module ======//
 //POST /api/notes - Should recieve a new note to save on the request body, add it to the db.json file, and then return the new note to the client....
@@ -85,7 +84,7 @@ app.post("/api/notes", function(req, res){
      })
   })
   res.json(newNote)
-})
+});
 
 
 
